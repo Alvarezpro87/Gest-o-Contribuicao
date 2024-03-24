@@ -4,7 +4,7 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 
 ## Tecnologias Utilizadas
 
-1. Spring Boot 3,2,4: Para construção da API REST..
+1. Spring Boot 3.2.4: Para construção da API REST.
 2. PostgreSQL 16: Como banco de dados.
 3. Docker-compose 2.25: Para containerização da aplicação e dos serviços dependentes.
 4. WireMock: Para simulação de respostas de serviços externos em ambiente de desenvolvimento.
