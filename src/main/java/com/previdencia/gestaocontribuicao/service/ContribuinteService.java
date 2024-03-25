@@ -3,7 +3,7 @@ import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
+//Classe de servicço para interagir com os dados do contribuinte.
 @Service
 public class ContribuinteService {
 

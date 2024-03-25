@@ -4,11 +4,10 @@ import com.previdencia.gestaocontribuicao.model.Aliquota;
 import com.previdencia.gestaocontribuicao.repository.AliquotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 
-
+//Ponte entre a camada "AliquotaRepository" e o controlador
 @Service
 public class AliquotaService {
 

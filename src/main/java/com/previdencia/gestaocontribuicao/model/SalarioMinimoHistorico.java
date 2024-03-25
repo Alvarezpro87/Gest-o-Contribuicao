@@ -13,16 +13,16 @@ import java.time.LocalDate; // Importe a classe LocalDate.
 public class SalarioMinimoHistorico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Recomendo usar Long para IDs.
+    private Long id;
 
     @Column(nullable = false)
-    private LocalDate dataMinimo; // Altere para LocalDate para armazenar datas.
+    private LocalDate dataMinimo;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valor_salario_minimo_ano;
 
     // Método para retornar o valor do salário mínimo na data especificada.
     public BigDecimal getValorSalarioMinimoAno() {
-        return this.valor_salario_minimo_ano; // Retorna o valor do salário mínimo.
+        return this.valor_salario_minimo_ano;
     }
 }

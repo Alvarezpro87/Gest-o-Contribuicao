@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
-@RestController
-@RequestMapping("/aliquotas")
+//Classe resposável por tratar as requisições HTTP relacionadas a aliquotas
+@RestController // Anotação que diz ao Spring que esta classe vai ser usada para tratar requisições web.
+@RequestMapping("/aliquotas") // Define o caminho para todas as requisições tratadas no controller
 public class AliquotaController {
 
-    @Autowired
+    @Autowired //injeção de dependecia
     private AliquotaService aliquotaService;
 
     @PostMapping

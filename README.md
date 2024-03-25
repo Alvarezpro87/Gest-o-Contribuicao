@@ -14,8 +14,6 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 
 Utilize o seguinte comando para subir todos os serviços (aplicação, banco de dados e WireMock):
 
-Edite as seguintes variáveis no início do script:
-
 ```bash
 docker-compose up --build
 ```
@@ -40,7 +38,7 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
     * Descrição: Atualiza os dados de uma aliquota existente. É necessário enviar no corpo da requisição os dados atualizados da aliquota.
 - Deletar Aliquota
     * Delete `/aliquotas/{id}`
-    * Descrição: ARemove uma aliquota do sistema pelo seu ID.
+    * Descrição: Remove uma aliquota do sistema pelo seu ID.
 
 ## Obter  os dados do WireMock
 

@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
+
+//Como as informações são armzenadas e manipuladas no meu banco e app.
 @Table(name="aliquota")
 @Entity
 @Setter

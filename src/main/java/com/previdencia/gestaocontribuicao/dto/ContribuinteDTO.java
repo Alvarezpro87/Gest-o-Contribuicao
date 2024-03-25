@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+//Usado para transferir dados entre diferentes camadas da aplicação.
 
 @Getter
 @Setter
