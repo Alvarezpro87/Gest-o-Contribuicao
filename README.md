@@ -62,7 +62,7 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
 ```
 
 - WireMock dados do contribuinte calculados
-    * GET `http://localhost:8080/contribuintes/12345678901`
+    * GET `http://localhost:8080/contribuintes/consultar/12345678901`
     * Descrição: Retorna detalhes sobre o contribuinte, incluindo tempo total
       de contribuição em meses e o total contribuído ajustado, considerando o
       salário, categoria, e variações do salário mínimo.
