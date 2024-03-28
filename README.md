@@ -12,11 +12,24 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 
 ## Execução com Docker Compose
 
-Utilize o seguinte comando para subir todos os serviços (aplicação, banco de dados e WireMock):
+Utilize o seguinte na raiz  do projeto comando para subir todos os serviços (aplicação, banco de dados e WireMock):
 
 ```bash
 docker-compose up --build
 ```
+
+## Portas Utilizadas
+
+1. Aplicaçoã: 8080
+2. PostgreSQL:5432
+3. WireMock:8081.
+
+Utilize o seguinte na raiz  do projeto comando para subir todos os serviços (aplicação, banco de dados e WireMock):
+
+```bash
+docker-compose up --build
+```
+
 
 ## Uso dos endpoints Aliquotas
 As aliquotas são utilizadas para calcular o valor da contribuição com base na categoria do contribuinte e seu salário. Abaixo estão os endpoints disponíveis para gerenciar as aliquotas.
