@@ -3,6 +3,8 @@ import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
 import com.previdencia.gestaocontribuicao.service.ContribuinteService;
 import com.previdencia.gestaocontribuicao.service.SalarioMinimoService;
 import com.previdencia.gestaocontribuicao.service.AliquotaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +13,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
-// Expõe os endpoints para consultar informações do contribuint com base no CPF adquirido na API KEVIN
+
 @RestController
 @RequestMapping("/contribuintes")
 public class ContribuinteController {
@@ -22,20 +24,25 @@ public class ContribuinteController {
     @Autowired
     private AliquotaService aliquotaService;
 
+    @Operation(summary = "Consulta as informações do contribuinte com base no CPF",
+            description = "Retorna informações detalhadas sobre o contribuinte, incluindo categoria, tempo de contribuição e total contribuído ajustado.")
+    @ApiResponse(responseCode = "200", description = "Informações do contribuinte encontradas com sucesso")
+    @ApiResponse(responseCode = "404", description = "Contribuinte não encontrado")
+
 
     @GetMapping("/consultar/{cpf}")
     public ResponseEntity<?> consultarContribuinte(@PathVariable String cpf) {
-        ContribuinteDTO contribuinte = contribuinteService.buscarDadosContribuinte(cpf); //Busca os dados do contribuinte usando o CPF e retorna o objeto Contribuinte DTO
-        LocalDate inicioContribuicao = contribuinte.getInicio_contribuicao(); //Diferça entre a data de inicio da contribuição e a data atual
+        ContribuinteDTO contribuinte = contribuinteService.buscarDadosContribuinte(cpf);
+        LocalDate inicioContribuicao = contribuinte.getInicio_contribuicao();
         long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());
 
-        BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(contribuinte.getCategoria(), contribuinte.getSalario());//Busca a aliquota por categoria e salário do contribuinte
-        BigDecimal salarioMinimoInicio = salarioMinimoService.buscarValorSalarioMinimoParaData(inicioContribuicao);//Busca o valor do salário mínimo na data de início da contribuição e o valor atual do salário mínimo.
+        BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(contribuinte.getCategoria(), contribuinte.getSalario());
+        BigDecimal salarioMinimoInicio = salarioMinimoService.buscarValorSalarioMinimoParaData(inicioContribuicao);
         BigDecimal salarioMinimoAtual = salarioMinimoService.buscarValorSalarioMinimoParaData(LocalDate.now());
 
-        BigDecimal valorContribuicaoMensal = contribuinte.getSalario().multiply(aliquota.divide(new BigDecimal("100")));//Calcula o valor mensal da contriubição * o percentual da aliquota
-        BigDecimal totalContribuido = valorContribuicaoMensal.multiply(new BigDecimal(mesesContribuicao));//Multiplica o valor pelo total de meses da contribuição
-        BigDecimal totalContribuidoAjustado = totalContribuido.multiply(salarioMinimoAtual).divide(salarioMinimoInicio, 2, RoundingMode.HALF_UP); //Ajusta o valor total pelo atual do salario mínimo para refletir a valoriazação da moeda.
+        BigDecimal valorContribuicaoMensal = contribuinte.getSalario().multiply(aliquota.divide(new BigDecimal("100")));
+        BigDecimal totalContribuido = valorContribuicaoMensal.multiply(new BigDecimal(mesesContribuicao));
+        BigDecimal totalContribuidoAjustado = totalContribuido.multiply(salarioMinimoAtual).divide(salarioMinimoInicio, 2, RoundingMode.HALF_UP);
 
         // Estrutura de resposta
         return ResponseEntity.ok(Map.of(

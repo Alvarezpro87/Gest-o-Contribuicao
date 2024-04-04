@@ -11,7 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 
-//Como as informações são armzenadas e manipuladas no meu banco e app.
+/**
+ * Representa uma alíquota aplicada sobre o salário de um contribuinte.
+ */
+
+
 @Table(name="aliquota")
 @Entity
 @Setter
@@ -20,18 +24,38 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Aliquota {
 
+    /**
+     * Identificador único da alíquota.
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Categoria do contribuinte a qual a alíquota se aplica.
+     */
+
     @Column(nullable = false)
     private String categoria;
+
+    /**
+     * Salário inicial para aplicação da alíquota.
+     */
 
     @Column(name = "salario_inicio", nullable = false)
     private BigDecimal salarioInicio;
 
+    /**
+     * Salário final para aplicação da alíquota.
+     */
+
     @Column(name = "salario_fim", nullable = false)
     private BigDecimal salarioFim;
+
+    /**
+     * Valor percentual da alíquota.
+     */
 
     @Column(name = "valor_aliquota", nullable = false)
     private BigDecimal valorAliquota;

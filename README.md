@@ -66,16 +66,26 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
     * Descrição: Retorna detalhes sobre o contribuinte, incluindo tempo total
       de contribuição em meses e o total contribuído ajustado, considerando o
       salário, categoria, e variações do salário mínimo.
-- Dados esperados:
+- Dados esperados (Pode variar de acordo com o mês que a aplicação está sendo testada):
 ```bash
 {
   "{
   "cpf": "12345678901",
-  "tempoContribuicaoMeses": 50,
+  "tempoContribuicaoMeses": 51,
   "categoria": "Empregado",
-  "totalContribuidoAjustado": 47564.97
+  "totalContribuidoAjustado": 48516.27
 }
 ```
+
+## Documentação da API com Swagger
+
+A documentação da API está disponível através do Swagger UI, que fornece uma interface interativa para explorar e testar os endpoints da API.
+
+Para acessar a documentação da API via Swagger UI, após iniciar os serviços com Docker Compose, navegue para:
+
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+Na interface do Swagger UI, você encontrará a lista de todos os endpoints disponíveis. Você também pode executar chamadas à API diretamente da interface do Swagger para testar os comportamentos. 
 
 
   
