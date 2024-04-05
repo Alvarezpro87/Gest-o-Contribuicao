@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class ContribuinteDTO {
 
     @Schema(description = "CPF do contribuinte", example = "12345678901", required = true)
-    private String cpf;
+    private String CPF;
 
     @Schema(description = "Categoria do contribuinte", example = "Empregado", required = true)
     private String categoria;

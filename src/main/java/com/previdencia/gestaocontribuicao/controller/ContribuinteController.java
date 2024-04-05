@@ -46,7 +46,7 @@ public class ContribuinteController {
 
         // Estrutura de resposta
         return ResponseEntity.ok(Map.of(
-                "cpf", contribuinte.getCpf(),
+                "cpf", contribuinte.getCPF(),
                 "categoria", contribuinte.getCategoria(),
                 "tempoContribuicaoMeses", mesesContribuicao,
                 "totalContribuidoAjustado", totalContribuidoAjustado
