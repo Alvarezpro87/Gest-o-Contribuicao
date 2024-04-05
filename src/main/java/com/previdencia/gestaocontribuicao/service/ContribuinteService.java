@@ -22,7 +22,7 @@ public class ContribuinteService {
      */
     public ContribuinteDTO buscarDadosContribuinte(String cpf) {
 
-        String url = "http://api_mock_kelvin:8080/contribuintes/" + cpf;
+        String url = "http://192.168.37.11:8081/contribuintes/" + cpf;
         try {
             ContribuinteDTO contribuinte = restTemplate.getForObject(url, ContribuinteDTO.class);
             System.out.println("Dados do contribuinte recebidos com sucesso: " + contribuinte);

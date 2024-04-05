@@ -27,5 +27,5 @@ public class ContribuinteDTO {
 
     @Schema(description = "Data de início da contribuição", example = "01/01/2020", required = true)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate Inicio_contribuicao;
+    private LocalDate inicioContribuicao;
 }

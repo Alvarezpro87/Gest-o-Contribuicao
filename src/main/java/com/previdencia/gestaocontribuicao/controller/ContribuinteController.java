@@ -33,7 +33,7 @@ public class ContribuinteController {
     @GetMapping("/consultar/{cpf}")
     public ResponseEntity<?> consultarContribuinte(@PathVariable String cpf) {
         ContribuinteDTO contribuinte = contribuinteService.buscarDadosContribuinte(cpf);
-        LocalDate inicioContribuicao = contribuinte.getInicio_contribuicao();
+        LocalDate inicioContribuicao = contribuinte.getInicioContribuicao();
         long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());
 
         BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(contribuinte.getCategoria(), contribuinte.getSalario());
