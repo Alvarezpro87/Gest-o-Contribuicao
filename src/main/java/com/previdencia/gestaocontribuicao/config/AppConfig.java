@@ -14,7 +14,7 @@ public class AppConfig {
     /**
      * Cria e configura um bean do RestTemplate.
      * O RestTemplate é usado para realizar chamadas REST em serviços externos.
-     * @return Uma instância do RestTemplate.
+     * @return Uma instância do RestTemplate..
      */
     @Bean
     public RestTemplate restTemplate() {
