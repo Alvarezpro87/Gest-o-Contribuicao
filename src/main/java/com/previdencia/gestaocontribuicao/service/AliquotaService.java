@@ -3,6 +3,7 @@ import com.previdencia.gestaocontribuicao.dto.AliquotaDTO;
 import com.previdencia.gestaocontribuicao.model.Aliquota;
 import com.previdencia.gestaocontribuicao.repository.AliquotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,8 +25,12 @@ public class AliquotaService {
      * @return A alíquota criada.
      */
     public Aliquota criarAliquota(AliquotaDTO aliquotaDTO) {
-        Aliquota aliquota = new Aliquota(null, aliquotaDTO.getCategoria(), aliquotaDTO.getSalarioInicio(), aliquotaDTO.getSalarioFim(), aliquotaDTO.getValorAliquota());
-        return aliquotaRepository.save(aliquota);
+        try {
+            Aliquota aliquota = new Aliquota(null, aliquotaDTO.getCategoria(), aliquotaDTO.getSalarioInicio(), aliquotaDTO.getSalarioFim(), aliquotaDTO.getValorAliquota());
+            return aliquotaRepository.save(aliquota);
+        } catch (DataIntegrityViolationException violacaoIntegridade) {
+            throw new RuntimeException("Aliquota duplicada tente novamente: " + violacaoIntegridade.getMessage());
+        }
     }
 
     /**
