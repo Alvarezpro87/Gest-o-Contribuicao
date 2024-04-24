@@ -33,7 +33,7 @@ docker-compose up --build
 
 ## Portas Utilizadas
 
-1. Aplicaçoã: 8080
+1. Aplicação: 8080
 2. PostgreSQL: 5432
 
 
@@ -59,7 +59,7 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
     * Delete `/aliquotas/{id}`
     * Descrição: Remove uma aliquota do sistema pelo seu ID.
 
-## Obter  os dados do WireMock
+## Obter  os dados do Contribuinte via API Contribuintes
 
 - WireMock consulta contribuinte.
     * GET `http://" + apiHost + ":" + apiPort + "/contribuintes/" + 99999999994`
