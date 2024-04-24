@@ -7,7 +7,7 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 1. Spring Boot 3.2.4: Para construção da API REST.
 2. PostgreSQL 16: Como banco de dados.
 3. Docker-compose 2.25: Para containerização da aplicação e dos serviços dependentes.
-5. Postman: Para os testes da aplicação.
+4. Postman: Para os testes da aplicação.
 
 ## Configuração das Variáveis de Ambiente
 Antes de iniciar a aplicação, é necessário configurar as variáveis de ambiente para a conexão com o banco de dados e a comunicação com serviços externos. Estas configurações são definidas no arquivo .env, localizado na raiz do projeto.
