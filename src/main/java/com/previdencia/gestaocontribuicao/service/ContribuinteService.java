@@ -1,6 +1,5 @@
 package com.previdencia.gestaocontribuicao.service;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,16 +29,14 @@ public class ContribuinteService {
      * @return Um objeto {@link ContribuinteDTO} contendo os dados do contribuinte ou {@code null} se ocorrer um erro.
      */
     public ContribuinteDTO buscarDadosContribuinte(String cpf) {
-        if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d+")) {
-            throw new IllegalArgumentException("CPF deve ser composto por 11 dígitos numéricos.");
-        }
+
         String url = "http://" + apiHost + ":" + apiPort + "/contribuintes/" + cpf;
         try {
             ContribuinteDTO contribuinte = restTemplate.getForObject(url, ContribuinteDTO.class);
             System.out.println("Dados do contribuinte recebidos com sucesso: " + contribuinte);
             return contribuinte;
         } catch (Exception serviceExcception) {
-            throw new RuntimeException("Falha ao recuperar dados do contribuinte: " + serviceExcception.getMessage(), serviceExcception);
+            throw new RuntimeException("Falha ao recuperar dados do contribuinte: " + serviceExcception.getMessage());
         }
     }
 }

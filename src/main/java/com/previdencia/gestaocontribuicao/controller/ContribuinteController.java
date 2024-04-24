@@ -32,26 +32,40 @@ public class ContribuinteController {
 
     @GetMapping("/consultar/{cpf}")
     public ResponseEntity<?> consultarContribuinte(@PathVariable String cpf) {
-        ContribuinteDTO contribuinte = contribuinteService.buscarDadosContribuinte(cpf);
-        LocalDate inicioContribuicao = contribuinte.getInicioContribuicao();
-        long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());
+        // Validação do CPF
+        if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d+")) {
+            return ResponseEntity.badRequest().body("CPF inválido. Deve conter exatamente 11 dígitos numéricos.");
+        }
 
-        BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(contribuinte.getCategoria(), contribuinte.getSalario());
+        ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
+        if (contribuinteDTO == null || contribuinteDTO.getInfo() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ContribuinteDTO.Info info = contribuinteDTO.getInfo();
+        LocalDate inicioContribuicao = info.getInicioContribuicao();
+        if (inicioContribuicao == null) {
+            return ResponseEntity.badRequest().body("Data de início da contribuição não informada.");
+        }
+
+        long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());
+        BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(info.getCategoria(), info.getSalario());
         BigDecimal salarioMinimoInicio = salarioMinimoService.buscarValorSalarioMinimoParaData(inicioContribuicao);
         BigDecimal salarioMinimoAtual = salarioMinimoService.buscarValorSalarioMinimoParaData(LocalDate.now());
 
-        BigDecimal valorContribuicaoMensal = contribuinte.getSalario().multiply(aliquota.divide(new BigDecimal("100")));
+        BigDecimal valorContribuicaoMensal = info.getSalario().multiply(aliquota.divide(new BigDecimal("100")));
         BigDecimal totalContribuido = valorContribuicaoMensal.multiply(new BigDecimal(mesesContribuicao));
         BigDecimal totalContribuidoAjustado = totalContribuido.multiply(salarioMinimoAtual).divide(salarioMinimoInicio, 2, RoundingMode.HALF_UP);
 
-        // Estrutura de resposta
-        return ResponseEntity.ok(Map.of(
-                "cpf", contribuinte.getCPF(),
-                "categoria", contribuinte.getCategoria(),
+        Map<String, Object> response = Map.of(
+                "cpf", info.getCpf(),
+                "categoria", info.getCategoria(),
                 "tempoContribuicaoMeses", mesesContribuicao,
                 "totalContribuidoAjustado", totalContribuidoAjustado
-        ));
-    }
+        );
 
+        return ResponseEntity.ok(response);
+    }
 }
+
 
