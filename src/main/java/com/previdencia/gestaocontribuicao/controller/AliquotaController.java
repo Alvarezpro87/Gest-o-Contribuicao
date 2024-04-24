@@ -53,8 +53,8 @@ public class AliquotaController {
     @ApiResponse(responseCode = "200", description = "Aliquota deletada com sucesso")
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarAliquota(@PathVariable Long id) {
+    public ResponseEntity<?> deletarAliquota(@PathVariable Long id) {
         aliquotaService.deletarAliquota(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Aliquota deletada com sucesso");
     }
 }

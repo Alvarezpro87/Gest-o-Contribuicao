@@ -10,6 +10,20 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 4. WireMock: Para simulação de respostas de serviços externos em ambiente de desenvolvimento.
 5. Postman: Para os testes da aplicação.
 
+## Configuração das Variáveis de Ambiente
+Antes de iniciar a aplicação, é necessário configurar as variáveis de ambiente para a conexão com o banco de dados e a comunicação com serviços externos. Estas configurações são definidas no arquivo .env, localizado na raiz do projeto.
+
+### Adicione as seguintes variáveis ao arquivo .env:
+
+    DB_HOST: Host do banco de dados (ex: db para Docker Compose).
+    DB_NAME: Nome do banco de dados.
+    DB_USER: Usuário do banco de dados.
+    DB_PASS: Senha do banco de dados.
+    APP_PORT: Porta em que a aplicação será exposta.
+    DB_PORT: Porta em que o banco de dados será exposto.
+    CONTRIBUINTES_API_HOST: Host do serviço de contribuintes.
+    CONTRIBUINTES_API_PORT: Porta do serviço de contribuintes.
+
 ## Execução com Docker Compose
 
 Utilize o seguinte na raiz  do projeto comando para subir todos os serviços (aplicação, banco de dados e WireMock):
