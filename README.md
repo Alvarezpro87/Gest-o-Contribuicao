@@ -7,7 +7,6 @@ Este projeto, Gestão de Contribuições, é uma API REST desenvolvida para gere
 1. Spring Boot 3.2.4: Para construção da API REST.
 2. PostgreSQL 16: Como banco de dados.
 3. Docker-compose 2.25: Para containerização da aplicação e dos serviços dependentes.
-4. WireMock: Para simulação de respostas de serviços externos em ambiente de desenvolvimento.
 5. Postman: Para os testes da aplicação.
 
 ## Configuração das Variáveis de Ambiente
@@ -26,7 +25,7 @@ Antes de iniciar a aplicação, é necessário configurar as variáveis de ambie
 
 ## Execução com Docker Compose
 
-Utilize o seguinte na raiz  do projeto comando para subir todos os serviços (aplicação, banco de dados e WireMock):
+Utilize o seguinte comando na raiz  do projeto  para subir todos os serviços (aplicação, banco de dados):
 
 ```bash
 docker-compose up --build
@@ -36,7 +35,7 @@ docker-compose up --build
 
 1. Aplicaçoã: 8080
 2. PostgreSQL: 5432
-3. WireMock: 8081
+
 
 ## Uso dos endpoints Aliquotas
 As aliquotas são utilizadas para calcular o valor da contribuição com base na categoria do contribuinte e seu salário. Abaixo estão os endpoints disponíveis para gerenciar as aliquotas.
@@ -63,28 +62,28 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
 ## Obter  os dados do WireMock
 
 - WireMock consulta contribuinte.
-    * GET `http://localhost:8081/contribuintes/12345678901`
+    * GET `http://" + apiHost + ":" + apiPort + "/contribuintes/" + 99999999994`
     * Descrição: Retorna detalhes sobre o contribuinte TESTE;
 - Dados esperados:
 ```bash
 {
-  "cpf": "12345678901",
+  "cpf": "99999999994",
   "categoria": "Empregado",
   "salario": 5000.00,
   "inicio_contribuicao": "01/01/2020"
 }
 ```
 
-- WireMock dados do contribuinte calculados
-    * GET `http://localhost:8080/contribuintes/consultar/12345678901`
+- Dados do contribuinte calculados
+    * GET `http://" localhost ":" + APP_PORT +/contribuintes/consultar/99999999994`
     * Descrição: Retorna detalhes sobre o contribuinte, incluindo tempo total
       de contribuição em meses e o total contribuído ajustado, considerando o
       salário, categoria, e variações do salário mínimo.
-- Dados esperados (Pode variar de acordo com o mês que a aplicação está sendo testada):
+- Dados esperados (Podem variar de acordo com o mês que a aplicação está sendo testada):
 ```bash
 {
   "{
-  "cpf": "12345678901",
+  "cpf": "99999999994",
   "tempoContribuicaoMeses": 51,
   "categoria": "Empregado",
   "totalContribuidoAjustado": 48516.27
@@ -101,5 +100,7 @@ Para acessar a documentação da API via Swagger UI, após iniciar os serviços 
 
 Na interface do Swagger UI, você encontrará a lista de todos os endpoints disponíveis. Você também pode executar chamadas à API diretamente da interface do Swagger para testar os comportamentos. 
 
+## Observação Importante
 
+#### Algumas funcionalidades desta aplicação dependem diretamente da API de Contribuintes. Para garantir o funcionamento completo das chamadas disponíveis, é necessário que a API de Contribuintes esteja ativa e acessível. Certifique-se de que ela esteja rodando na sua máquina ou em um ambiente acessível pela rede antes de realizar os testes.
   
