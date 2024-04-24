@@ -68,9 +68,9 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
 ```bash
 {
   "cpf": "99999999994",
-  "categoria": "Empregado",
-  "salario": 5000.00,
-  "inicio_contribuicao": "01/01/2020"
+  "categoria": "MEI",
+  "salario": 7500.00,
+  "inicio_contribuicao": "03/11/2018"
 }
 ```
 
@@ -82,11 +82,10 @@ As aliquotas são utilizadas para calcular o valor da contribuição com base na
 - Dados esperados (Podem variar de acordo com o mês que a aplicação está sendo testada):
 ```bash
 {
-  "{
   "cpf": "99999999994",
-  "tempoContribuicaoMeses": 51,
-  "categoria": "Empregado",
-  "totalContribuidoAjustado": 48516.27
+  "tempoContribuicaoMeses": 65,
+  "categoria": "MEI",
+  "totalContribuidoAjustado": 144308.18
 }
 ```
 
