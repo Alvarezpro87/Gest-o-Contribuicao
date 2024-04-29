@@ -24,13 +24,10 @@ public class AliquotaService {
      * @param aliquotaDTO Dados da alíquota a ser criada.
      * @return A alíquota criada.
      */
+
     public Aliquota criarAliquota(AliquotaDTO aliquotaDTO) {
-        try {
-            Aliquota aliquota = new Aliquota(null, aliquotaDTO.getCategoria(), aliquotaDTO.getSalarioInicio(), aliquotaDTO.getSalarioFim(), aliquotaDTO.getValorAliquota());
-            return aliquotaRepository.save(aliquota);
-        } catch (DataIntegrityViolationException violacaoIntegridade) {
-            throw new RuntimeException("Aliquota duplicada tente novamente: " + violacaoIntegridade.getMessage());
-        }
+        Aliquota aliquota = new Aliquota(null, aliquotaDTO.getCategoria(), aliquotaDTO.getSalarioInicio(), aliquotaDTO.getSalarioFim(), aliquotaDTO.getValorAliquota());
+        return aliquotaRepository.save(aliquota);
     }
 
     /**
@@ -92,6 +89,7 @@ public class AliquotaService {
      * @param id Identificador da alíquota a ser deletada.
      */
     public void deletarAliquota(Long id) {
+
         aliquotaRepository.deleteById(id);
     }
 }

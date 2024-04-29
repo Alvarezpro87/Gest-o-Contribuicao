@@ -5,6 +5,7 @@ import com.previdencia.gestaocontribuicao.service.AliquotaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,14 +19,21 @@ public class AliquotaController {
 
     @Operation(summary = "Cria uma nova aliquota", description = "Cria uma nova aliquota com as informações fornecidas.")
     @ApiResponse(responseCode = "200", description = "Aliquota criada com sucesso")
-
+    //Erro sendo tratado conforme apresentação
     @PostMapping
-    public ResponseEntity<Aliquota> criarAliquota(@RequestBody AliquotaDTO aliquotaDTO) {
-        Aliquota novaAliquota = aliquotaService.criarAliquota(aliquotaDTO);
-        return ResponseEntity.ok(novaAliquota);
+    public ResponseEntity<?> criarAliquota(@RequestBody AliquotaDTO aliquotaDTO) {
+        try {
+            Aliquota novaAliquota = aliquotaService.criarAliquota(aliquotaDTO);
+            return ResponseEntity.ok(novaAliquota);
+        } catch (RuntimeException AliquotaDuplicada) {
+            String MensagemErro = "Aliquota duplicada: " + AliquotaDuplicada.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MensagemErro);
+        }
     }
+
     @Operation(summary = "Lista todas as aliquotas", description = "Retorna uma lista de todas as aliquotas cadastradas.")
     @ApiResponse(responseCode = "200", description = "Lista de aliquotas retornada com sucesso")
+
     @GetMapping
     public ResponseEntity<List<Aliquota>> listarTodasAliquotas() {
         List<Aliquota> aliquotas = aliquotaService.listarTodas();

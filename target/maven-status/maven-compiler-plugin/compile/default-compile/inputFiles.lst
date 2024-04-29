@@ -4,10 +4,12 @@ D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdenci
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\GestaoContribuicaoApplication.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\service\ContribuinteService.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\service\SalarioMinimoService.java
+D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\exceptions\InvalidCPFException.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\dto\ContribuinteDTO.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\model\SalarioMinimoHistorico.java
+D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\exceptions\ExternalServiceException.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\config\AppConfig.java
-D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\exception\GlobalExceptionHandler.java
+D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\exceptions\GlobalExceptionHandler.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\model\Aliquota.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\controller\AliquotaController.java
 D:\Documentos\Desafio3\Gestao 2\Gestao-Contribuicao\src\main\java\com\previdencia\gestaocontribuicao\repository\SalarioMinimoHistoricoRepository.java

@@ -1,4 +1,4 @@
-# Utilizar a imagem base do Java 17
+# imagem base do Java 17
 FROM openjdk:17-jdk-alpine
 
 # Definir argumento com o caminho do arquivo .jar

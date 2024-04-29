@@ -1,17 +1,24 @@
 package com.previdencia.gestaocontribuicao.controller;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
+import com.previdencia.gestaocontribuicao.exceptions.InvalidCPFException;
+import com.previdencia.gestaocontribuicao.exceptions.ExternalServiceException;
+import com.previdencia.gestaocontribuicao.service.AliquotaService;
 import com.previdencia.gestaocontribuicao.service.ContribuinteService;
 import com.previdencia.gestaocontribuicao.service.SalarioMinimoService;
-import com.previdencia.gestaocontribuicao.service.AliquotaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
@@ -29,43 +36,48 @@ public class ContribuinteController {
     @ApiResponse(responseCode = "200", description = "Informações do contribuinte encontradas com sucesso")
     @ApiResponse(responseCode = "404", description = "Contribuinte não encontrado")
 
-
     @GetMapping("/consultar/{cpf}")
     public ResponseEntity<?> consultarContribuinte(@PathVariable String cpf) {
-        // Validação do CPF
-        if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d+")) {
-            return ResponseEntity.badRequest().body("CPF inválido. Deve conter exatamente 11 dígitos numéricos.");
+        if (!isValidCPF(cpf)) {
+            throw new InvalidCPFException("CPF "+cpf+"inválido, deve conter exatamente 11 números.");
         }
 
-        ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
-        if (contribuinteDTO == null || contribuinteDTO.getInfo() == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
+            Map<String, Object> response = calcularontribuicao(contribuinteDTO);
+            return ResponseEntity.ok(response);
+        } catch (ExternalServiceException e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("ERRO", e.getMessage()));
         }
+    }
 
+    private boolean isValidCPF(String cpf) {
+        return cpf != null && cpf.trim().matches("\\d{11}");
+    }
+
+    private Map<String, Object> calcularontribuicao(ContribuinteDTO contribuinteDTO) {
         ContribuinteDTO.Info info = contribuinteDTO.getInfo();
         LocalDate inicioContribuicao = info.getInicioContribuicao();
-        if (inicioContribuicao == null) {
-            return ResponseEntity.badRequest().body("Data de início da contribuição não informada.");
-        }
-
         long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());
         BigDecimal aliquota = aliquotaService.buscarAliquotaPorCategoriaESalario(info.getCategoria(), info.getSalario());
         BigDecimal salarioMinimoInicio = salarioMinimoService.buscarValorSalarioMinimoParaData(inicioContribuicao);
         BigDecimal salarioMinimoAtual = salarioMinimoService.buscarValorSalarioMinimoParaData(LocalDate.now());
-
-        BigDecimal valorContribuicaoMensal = info.getSalario().multiply(aliquota.divide(new BigDecimal("100")));
+        BigDecimal valorContribuicaoMensal = info.getSalario().multiply(aliquota.divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP));
         BigDecimal totalContribuido = valorContribuicaoMensal.multiply(new BigDecimal(mesesContribuicao));
         BigDecimal totalContribuidoAjustado = totalContribuido.multiply(salarioMinimoAtual).divide(salarioMinimoInicio, 2, RoundingMode.HALF_UP);
+        BigDecimal valorAjusteAplicado = totalContribuidoAjustado.subtract(totalContribuido);
 
-        Map<String, Object> response = Map.of(
-                "cpf", info.getCpf(),
-                "categoria", info.getCategoria(),
-                "tempoContribuicaoMeses", mesesContribuicao,
-                "totalContribuidoAjustado", totalContribuidoAjustado
-        );
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("cpf", info.getCpf());
+        response.put("categoria", info.getCategoria());
+        response.put("salario", info.getSalario());
+        response.put("aliquota", aliquota);
+        response.put("tempoContribuicaoMeses", mesesContribuicao);
+        response.put("valorContribuicaoMensal", valorContribuicaoMensal);
+        response.put("totalContribuidoSemAjuste", totalContribuido);
+        response.put("valorAjusteAplicado", valorAjusteAplicado);
+        response.put("totalContribuidoAjustado", totalContribuidoAjustado);
 
-        return ResponseEntity.ok(response);
+        return response;
     }
 }
-
-

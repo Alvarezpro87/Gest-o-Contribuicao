@@ -1,8 +1,10 @@
 package com.previdencia.gestaocontribuicao.service;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
+import com.previdencia.gestaocontribuicao.exceptions.ExternalServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class ContribuinteService {
+
 
     @Autowired
     private RestTemplate restTemplate;
@@ -21,23 +24,30 @@ public class ContribuinteService {
     @Value("${contribuintes.api.port}")
     private String apiPort;
 
-
     /**
      * Busca dados de um contribuinte utilizando seu CPF.
      *
      * @param cpf O CPF do contribuinte a ser buscado.
-     * @return Um objeto {@link ContribuinteDTO} contendo os dados do contribuinte ou {@code null} se ocorrer um erro.
+     * @return Um objeto {@link ContribuinteDTO} contendo os dados do contribuinte.
+     * @throws ExternalServiceException Se ocorrer um erro ao acessar a API externa.
      */
-    public ContribuinteDTO buscarDadosContribuinte(String cpf) {
 
+    //Tentativa de tratamento de erro conforme aula bootcamp
+    public ContribuinteDTO buscarDadosContribuinte(String cpf) {
         String url = "http://" + apiHost + ":" + apiPort + "/contribuintes/" + cpf;
         try {
             ContribuinteDTO contribuinte = restTemplate.getForObject(url, ContribuinteDTO.class);
-            System.out.println("Dados do contribuinte recebidos com sucesso: " + contribuinte);
+            if (contribuinte == null) {
+
+                throw new ExternalServiceException("A API externa não retornou dados para o CPF: " + cpf);
+            }
+
             return contribuinte;
-        } catch (Exception serviceExcception) {
-            throw new RuntimeException("Falha ao recuperar dados do contribuinte: " + serviceExcception.getMessage());
+        } catch (RestClientException e) {
+
+            throw new ExternalServiceException("Falha ao comunicar com a API externa para o CPF: " + cpf, e);
         }
     }
 }
+
 
