@@ -1,15 +1,15 @@
 package com.previdencia.gestaocontribuicao.controller;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
-import com.previdencia.gestaocontribuicao.exceptions.InvalidCPFException;
-import com.previdencia.gestaocontribuicao.exceptions.ExternalServiceException;
 import com.previdencia.gestaocontribuicao.service.AliquotaService;
 import com.previdencia.gestaocontribuicao.service.ContribuinteService;
 import com.previdencia.gestaocontribuicao.service.SalarioMinimoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+@Validated
 @RestController
 @RequestMapping("/contribuintes")
 public class ContribuinteController {
@@ -33,29 +33,17 @@ public class ContribuinteController {
 
     @Operation(summary = "Consulta as informações do contribuinte com base no CPF",
             description = "Retorna informações detalhadas sobre o contribuinte, incluindo categoria, tempo de contribuição e total contribuído ajustado.")
-    @ApiResponse(responseCode = "200", description = "Informações do contribuinte encontradas com sucesso")
-    @ApiResponse(responseCode = "404", description = "Contribuinte não encontrado")
+
 
     @GetMapping("/consultar/{cpf}")
-    public ResponseEntity<?> consultarContribuinte(@PathVariable String cpf) {
-        if (!isValidCPF(cpf)) {
-            throw new InvalidCPFException("CPF "+cpf+"inválido, deve conter exatamente 11 números.");
-        }
-
-        try {
-            ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
-            Map<String, Object> response = calcularontribuicao(contribuinteDTO);
-            return ResponseEntity.ok(response);
-        } catch (ExternalServiceException e) {
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("ERRO", e.getMessage()));
-        }
+    public ResponseEntity<?> consultarContribuinte(@Valid @PathVariable @CPF(message = "CPF deve conter 11 números") String cpf) {
+        ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
+        Map<String, Object> response = calcularContribuicao(contribuinteDTO);
+        return ResponseEntity.ok(response);
     }
 
-    private boolean isValidCPF(String cpf) {
-        return cpf != null && cpf.trim().matches("\\d{11}");
-    }
 
-    private Map<String, Object> calcularontribuicao(ContribuinteDTO contribuinteDTO) {
+    private Map<String, Object> calcularContribuicao(ContribuinteDTO contribuinteDTO) {
         ContribuinteDTO.Info info = contribuinteDTO.getInfo();
         LocalDate inicioContribuicao = info.getInicioContribuicao();
         long mesesContribuicao = ChronoUnit.MONTHS.between(inicioContribuicao, LocalDate.now());

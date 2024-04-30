@@ -1,8 +1,8 @@
 com\previdencia\gestaocontribuicao\dto\ContribuinteDTO$Info.class
+com\previdencia\gestaocontribuicao\exceptions\DataNotFoundException.class
 com\previdencia\gestaocontribuicao\controller\AliquotaController.class
 com\previdencia\gestaocontribuicao\repository\SalarioMinimoHistoricoRepository.class
 com\previdencia\gestaocontribuicao\repository\AliquotaRepository.class
-com\previdencia\gestaocontribuicao\exceptions\ExternalServiceException.class
 com\previdencia\gestaocontribuicao\model\Aliquota.class
 com\previdencia\gestaocontribuicao\exceptions\GlobalExceptionHandler.class
 com\previdencia\gestaocontribuicao\config\AppConfig.class

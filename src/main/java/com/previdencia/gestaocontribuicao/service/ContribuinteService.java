@@ -1,9 +1,13 @@
 package com.previdencia.gestaocontribuicao.service;
+import com.previdencia.gestaocontribuicao.dto.AliquotaDTO;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
-import com.previdencia.gestaocontribuicao.exceptions.ExternalServiceException;
+import com.previdencia.gestaocontribuicao.model.Aliquota;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,25 +33,21 @@ public class ContribuinteService {
      *
      * @param cpf O CPF do contribuinte a ser buscado.
      * @return Um objeto {@link ContribuinteDTO} contendo os dados do contribuinte.
-     * @throws ExternalServiceException Se ocorrer um erro ao acessar a API externa.
+     * @throws RestClientException Se ocorrer um erro ao acessar a API externa.
      */
 
-    //Tentativa de tratamento de erro conforme aula bootcamp
-    public ContribuinteDTO buscarDadosContribuinte(String cpf) {
+    public ContribuinteDTO buscarDadosContribuinte(String cpf) throws RestClientException {
         String url = "http://" + apiHost + ":" + apiPort + "/contribuintes/" + cpf;
         try {
             ContribuinteDTO contribuinte = restTemplate.getForObject(url, ContribuinteDTO.class);
-            if (contribuinte == null) {
-
-                throw new ExternalServiceException("A API externa não retornou dados para o CPF: " + cpf);
-            }
-
             return contribuinte;
-        } catch (RestClientException e) {
 
-            throw new ExternalServiceException("Falha ao comunicar com a API externa para o CPF: " + cpf, e);
+        } catch (RestClientException e) {
+            throw new RestClientException("Nenhum dado encontrado para o CPF: " + cpf, e);
         }
     }
 }
+
+
 
 
