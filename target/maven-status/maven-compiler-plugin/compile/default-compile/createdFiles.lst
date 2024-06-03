@@ -14,4 +14,6 @@ com\previdencia\gestaocontribuicao\dto\AliquotaDTO.class
 com\previdencia\gestaocontribuicao\dto\ContribuinteDTO.class
 com\previdencia\gestaocontribuicao\controller\ContribuinteController.class
 com\previdencia\gestaocontribuicao\model\SalarioMinimoHistorico.class
+com\previdencia\gestaocontribuicao\config\WebConfig$1.class
+com\previdencia\gestaocontribuicao\config\WebConfig.class
 com\previdencia\gestaocontribuicao\service\AliquotaService.class

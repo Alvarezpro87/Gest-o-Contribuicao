@@ -1,10 +1,10 @@
 package com.previdencia.gestaocontribuicao.controller;
+
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
 import com.previdencia.gestaocontribuicao.service.AliquotaService;
 import com.previdencia.gestaocontribuicao.service.ContribuinteService;
 import com.previdencia.gestaocontribuicao.service.SalarioMinimoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 @Validated
 @RestController
 @RequestMapping("/contribuintes")
 public class ContribuinteController {
+
     @Autowired
     private ContribuinteService contribuinteService;
     @Autowired
@@ -33,15 +37,16 @@ public class ContribuinteController {
 
     @Operation(summary = "Consulta as informações do contribuinte com base no CPF",
             description = "Retorna informações detalhadas sobre o contribuinte, incluindo categoria, tempo de contribuição e total contribuído ajustado.")
-
-
     @GetMapping("/consultar/{cpf}")
     public ResponseEntity<?> consultarContribuinte(@Valid @PathVariable @CPF(message = "CPF deve conter 11 números") String cpf) {
-        ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
-        Map<String, Object> response = calcularContribuicao(contribuinteDTO);
-        return ResponseEntity.ok(response);
+        try {
+            ContribuinteDTO contribuinteDTO = contribuinteService.buscarDadosContribuinte(cpf);
+            Map<String, Object> response = calcularContribuicao(contribuinteDTO);
+            return ResponseEntity.ok(response);
+        } catch (RestClientException e) {
+            return ResponseEntity.status(503).body(Map.of("STATUS", 503, "ERRO", "Nenhum dado encontrado para o CPF: " + cpf));
+        }
     }
-
 
     private Map<String, Object> calcularContribuicao(ContribuinteDTO contribuinteDTO) {
         ContribuinteDTO.Info info = contribuinteDTO.getInfo();
@@ -69,3 +74,4 @@ public class ContribuinteController {
         return response;
     }
 }
+

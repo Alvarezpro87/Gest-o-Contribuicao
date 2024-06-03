@@ -1,13 +1,8 @@
 package com.previdencia.gestaocontribuicao.service;
-import com.previdencia.gestaocontribuicao.dto.AliquotaDTO;
 import com.previdencia.gestaocontribuicao.dto.ContribuinteDTO;
-import com.previdencia.gestaocontribuicao.model.Aliquota;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,9 +34,7 @@ public class ContribuinteService {
     public ContribuinteDTO buscarDadosContribuinte(String cpf) throws RestClientException {
         String url = "http://" + apiHost + ":" + apiPort + "/contribuintes/" + cpf;
         try {
-            ContribuinteDTO contribuinte = restTemplate.getForObject(url, ContribuinteDTO.class);
-            return contribuinte;
-
+            return restTemplate.getForObject(url, ContribuinteDTO.class);
         } catch (RestClientException e) {
             throw new RestClientException("Nenhum dado encontrado para o CPF: " + cpf, e);
         }
