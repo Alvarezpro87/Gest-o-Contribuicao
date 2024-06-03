@@ -46,7 +46,7 @@ Antes de iniciar a aplicação, é necessário configurar as variáveis de ambie
 
 ### Adicione as seguintes variáveis ao arquivo .env:
 
-    DB_HOST: Host do banco de dados (ex: db para Docker Compose).
+    DB_HOST: Host do banco de dados.
     DB_NAME: Nome do banco de dados.
     DB_USER: Usuário do banco de dados.
     DB_PASS: Senha do banco de dados.
