@@ -1,0 +1,22 @@
+.header-top {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-bottom {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-menu-trigger, .header-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-left: -10px; 
+    margin-top: 14px;
+  }
+  

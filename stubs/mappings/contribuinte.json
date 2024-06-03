@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/contribuintes/84688392052"
+  },
+  "response": {
+    "status": 200,
+    "body": "{ \"info\": { \"cpf\": \"84688392052\", \"categoria\": \"MEI\", \"salario\": 7500.00, \"inicioContribuicao\": \"2020/01/01\" } }",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
