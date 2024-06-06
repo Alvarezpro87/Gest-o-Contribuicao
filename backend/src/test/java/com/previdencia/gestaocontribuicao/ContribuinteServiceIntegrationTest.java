@@ -31,7 +31,7 @@ public class ContribuinteServiceIntegrationTest {
     public void setup() {
         wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(8081));
         wireMockServer.start();
-        WireMock.configureFor("localhost", 8081);
+        WireMock.configureFor("192.168.37.10", 8081);
 
         stubFor(get(urlEqualTo("/contribuintes/84688392052"))
                 .willReturn(aResponse()

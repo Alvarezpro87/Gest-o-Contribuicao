@@ -2,6 +2,11 @@
 
 Este projeto, Gestão de Contribuições, é uma aplicação web composta por uma API REST desenvolvida para gerenciar contribuições de contribuintes, possibilitando cálculo do tempo total de contribuição e o valor total atualizado das contribuições com base nas alíquotas aplicáveis. A aplicação inclui um frontend para interagir com a API e visualizar os dados.
 
+## Guia de Instalação
+
+Para iniciar o Projeto deverá ser instalado o pacote @gov-ds/core do site do [Gov.br](https://example.com/documentacao)
+
+
 ## Tecnologias Utilizadas
 
 1. **Backend**:
