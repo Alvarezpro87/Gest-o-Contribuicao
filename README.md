@@ -4,7 +4,7 @@ Este projeto, Gestão de Contribuições, é uma aplicação web composta por um
 
 ## Guia de Instalação
 
-Para iniciar o Projeto deverá ser instalado o pacote @gov-ds/core do site do [Gov.br](https://example.com/documentacao)
+Para iniciar o Projeto deverá ser instalado o pacote @gov-ds/core do site do [Gov.br](https://www.gov.br/ds/como-comecar/instalacao)
 
 
 ## Tecnologias Utilizadas

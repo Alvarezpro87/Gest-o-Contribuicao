@@ -9,6 +9,7 @@ const AliquotaList = () => {
   useEffect(() => {
     const fetchAliquotas = async () => {
       try {
+        console.log("Fetching aliquotas from:", api.defaults.baseURL);
         const response = await api.get("/aliquotas");
         setAliquotas(response.data);
       } catch (error) {

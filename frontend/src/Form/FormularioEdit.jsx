@@ -15,7 +15,7 @@ const AliquotaEdit = () => {
   useEffect(() => {
     const fetchAliquota = async () => {
       try {
-        const response = await axios.get(`http://192.168.37.10:8080/aliquotas/${id}`);
+        const response = await axios.get(`/aliquotas/${id}`);
         const { categoria, salarioInicio, salarioFim, valorAliquota } = response.data;
         setCategoria(categoria);
         setSalarioInicio(salarioInicio);
@@ -32,7 +32,7 @@ const AliquotaEdit = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`http://192.168.37.10:8080/aliquotas/${id}`, {
+      await axios.put(`/aliquotas/${id}`, {
         categoria,
         salarioInicio,
         salarioFim,
